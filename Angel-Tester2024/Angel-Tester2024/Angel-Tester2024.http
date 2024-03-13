@@ -1,0 +1,6 @@
+@Angel_Tester2024_HostAddress = http://localhost:5240
+
+GET {{Angel_Tester2024_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
