@@ -1,55 +1,18 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.DevTools.V120.Page;
+﻿using AngelicaTester.Utilities;
+using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace AngelicaTester
+namespace AngelicaTester.Pages
 {
-
-    internal class Program
+    internal class TMPage
     {
-        static void Main(string[] args)
+        public void CreateTM(IWebDriver driver)
         {
-            // open chrome  browser
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            // launch TurnUp portal
-            driver.Navigate().GoToUrl("http://horse.industryconnect.io/Account/Login?ReturnUrl=%2f");
-
-            // identify username textbox and valid username
-            IWebElement usernameTextbox = driver.FindElement(By.Id("UserName"));
-            usernameTextbox.SendKeys("hari");
-
-            // identify password textbox and enter valid password
-            IWebElement passwordTextbox = driver.FindElement(By.Id("Password"));
-            passwordTextbox.SendKeys("123123");
-
-            // click on login button
-            IWebElement loginButton = driver.FindElement(By.XPath("//*[@id='loginForm']/form/div[3]/input[1]"));
-            loginButton.Click();
-
-            // check if user is logged in successfully
-            IWebElement helloHari = driver.FindElement(By.XPath("//*[@id='logoutForm']/ul/li/a"));
-
-            if (helloHari.Text == "Hello hari")
-            {
-                Console.WriteLine("Logged in sucessfuly, teest passed.");
-            }
-            else
-            {
-                Console.WriteLine("Login failed, test failed");
-            }
-
-            // Create Time and Material record
-
-            // Go to TM page
-            IWebElement administrationDropdown = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/a"));
-            administrationDropdown.Click();
-
-            IWebElement tmOption = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
-            tmOption.Click();
-
             // Click on Create New Button
             IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id='container']/p/a"));
             createNewButton.Click();
@@ -62,7 +25,7 @@ namespace AngelicaTester
 
             IWebElement materialOption = driver.FindElement(By.XPath("//*[@id='TypeCode_listbox']/li[1]"));
             materialOption.Click();
-            
+
             // Identify the code textbox and input a code
             IWebElement codeTextbox = driver.FindElement(By.Id("Code"));
             codeTextbox.SendKeys("AngelicaTester");
@@ -81,7 +44,7 @@ namespace AngelicaTester
             // Click on save button
             IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             saveButton.Click();
-            Thread.Sleep(1000);
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
 
             // Click on go to last page button
             IWebElement goToLastButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
@@ -90,7 +53,7 @@ namespace AngelicaTester
 
             // Check if record is present in the table and has expected value
             IWebElement actualCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-           
+
             if (actualCode.Text == "AngelicaTester")
             {
                 Console.WriteLine("Material record created successffully, test passed.");
@@ -98,15 +61,17 @@ namespace AngelicaTester
             else
             {
                 Console.WriteLine("Teste failed.");
-             }
-         }
+            }
+        }
+
+        public void EditTM(IWebDriver driver)
+        {
+            
+        }
+
+        internal void DeleteTM(IWebDriver driver)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-
-
-      
-
-
-
-
-
